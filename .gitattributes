@@ -1,4 +1,8 @@
 android/* linguist-documentation
 *.java linguist-documentation
+*.cpp linguist-documentation
+*.c linguist-documentation
+*.mm linguist-documentation
+*.h linguist-documentation
 ios/* linguist-documentation
 
