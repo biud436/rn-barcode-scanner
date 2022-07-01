@@ -3,6 +3,7 @@ android/* linguist-documentation
 *.cpp linguist-documentation
 *.c linguist-documentation
 *.mm linguist-documentation
+*.m linguist-documentation
 *.h linguist-documentation
 ios/* linguist-documentation
 
