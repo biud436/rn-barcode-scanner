@@ -6,5 +6,6 @@ android/* linguist-documentation
 *.m linguist-documentation
 *.h linguist-documentation
 *.mk linguist-documentation
+*.bzl linguist-documentation
 ios/* linguist-documentation
 
