@@ -1,2 +1,4 @@
 android/* linguist-documentation
+*.java linguist-documentation
 ios/* linguist-documentation
+
