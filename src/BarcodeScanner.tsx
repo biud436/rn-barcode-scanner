@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-native/no-inline-styles */
+
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, StyleSheet, Vibration, View} from 'react-native';
 import {
