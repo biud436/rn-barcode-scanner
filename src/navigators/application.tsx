@@ -1,6 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import NfcReader from '../components/NfcReader';
 import BarcodeScanner from '../screens/BarcodeScanner';
 import Home from '../screens/Home';
 import {navigationRef} from './utils';
@@ -21,6 +22,7 @@ const ApplicationNavigator = () => {
           component={Home}
         />
         <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
+        <Stack.Screen name="NfcReader" component={NfcReader} />
       </Stack.Navigator>
     </NavigationContainer>
   );

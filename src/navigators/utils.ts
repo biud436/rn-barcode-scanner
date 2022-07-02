@@ -5,7 +5,7 @@ import {
 
 export const navigationRef = createNavigationContainerRef();
 
-export type RouterMap = 'Home' | 'BarcodeScanner';
+export type RouterMap = 'Home' | 'BarcodeScanner' | 'NfcReader';
 
 export const navigate = (name: RouterMap, params?: never) => {
   if (navigationRef.isReady()) {

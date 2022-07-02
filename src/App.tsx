@@ -19,6 +19,10 @@ import BarcodeScanner from './screens/BarcodeScanner';
 import ApplicationNavigator from './navigators/application';
 import {persistor, store} from './store';
 
+import nfcManager, {NfcTech} from 'react-native-nfc-manager';
+
+nfcManager.start();
+
 const App = () => {
   return (
     <Provider store={store}>

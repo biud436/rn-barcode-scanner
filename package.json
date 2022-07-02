@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --active-arch-only",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
@@ -19,6 +19,7 @@
     "react-native": "0.69.1",
     "react-native-camera-kit": "^12.1.0",
     "react-native-gesture-handler": "^2.5.0",
+    "react-native-nfc-manager": "^3.13.5",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^4.3.1",
     "react-native-screens": "^3.14.0",
