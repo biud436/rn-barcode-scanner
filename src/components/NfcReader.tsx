@@ -42,7 +42,6 @@ export default function NfcReader() {
 
       foundNfcTag();
 
-      // Read
       const cmdTestReading = [0x02, 0x20, 0x01];
       const returnedValueFromTag = await nfcManager.transceive(cmdTestReading);
 
