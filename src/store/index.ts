@@ -14,9 +14,11 @@ import {setupListeners} from '@reduxjs/toolkit/query';
 
 import theme from './theme';
 import {api} from '../services';
+import nfc from './nfc';
 
 const reducers = combineReducers({
   theme,
+  nfc,
   api: api.reducer,
 });
 
@@ -45,4 +47,5 @@ const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 
+export type RootState = ReturnType<typeof store.getState>;
 export {store, persistor};

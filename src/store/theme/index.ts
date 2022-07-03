@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-type Nullable<T> = T | null;
+export type Nullable<T> = T | null;
 
-type ThemeState = {
+export type ThemeState = {
   theme: Nullable<string>;
   darkMode: Nullable<boolean>;
 };
