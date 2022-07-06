@@ -10,8 +10,8 @@
  */
 
 import 'react-native-gesture-handler';
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {Alert, Platform, StyleSheet, Text, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 
@@ -19,16 +19,22 @@ import BarcodeScanner from './screens/BarcodeScanner';
 import ApplicationNavigator from './navigators/application';
 import {persistor, store} from './store';
 
-import nfcManager, {NfcTech} from 'react-native-nfc-manager';
+import NfcManager, {NfcError} from 'react-native-nfc-manager';
+
+NfcManager.start();
 
 const App = () => {
+  const init = async () => {
+    const supported = await NfcManager.isSupported();
+    if (supported) {
+      await NfcManager.start();
+    }
+    return supported;
+  };
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {/* <View style={styles.container}>
-          <Text style={styles.text}>바코드 스캔 테스트</Text>
-          <BarcodeScanner />
-        </View> */}
         <ApplicationNavigator />
       </PersistGate>
     </Provider>
