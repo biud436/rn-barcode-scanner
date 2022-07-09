@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {ProgressBar} from 'react-native-paper';
 
 import {Grid} from '../components/Grid';
 import {navigate, navigateAndSimpleReset} from '../navigators/utils';
@@ -18,7 +19,7 @@ const Home = () => {
     <View style={styles.container}>
       <View style={styles.descriptionContainer}>
         <Text style={styles.description}>바코드를 스캔합니다.</Text>
-        <Grid />
+        <ProgressBar progress={0.5} color="black" />
       </View>
       <View style={styles.buttonArea}>
         <TouchableOpacity style={styles.buttonContainer}>

@@ -18,8 +18,9 @@ import {PersistGate} from 'redux-persist/lib/integration/react';
 import BarcodeScanner from './screens/BarcodeScanner';
 import ApplicationNavigator from './navigators/application';
 import {persistor, store} from './store';
-
+import {Provider as PaperProvider} from 'react-native-paper';
 import NfcManager, {NfcError} from 'react-native-nfc-manager';
+import {ProgressBar} from 'react-native-paper';
 
 NfcManager.start();
 
