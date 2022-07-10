@@ -4,6 +4,7 @@ import React from 'react';
 import NfcReader from '../components/NfcReader';
 import BarcodeScanner from '../screens/BarcodeScanner';
 import Home from '../screens/Home';
+import {Splash} from '../screens/Splash';
 import {navigationRef} from './utils';
 
 const Stack = createStackNavigator();
@@ -13,7 +14,8 @@ const ApplicationNavigator = () => {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         screenOptions={{headerShown: true}}
-        initialRouteName="Home">
+        initialRouteName="Splash">
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen
           name="Home"
           options={{
