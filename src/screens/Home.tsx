@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {
   Button,
+  Dimensions,
   Platform,
   PlatformColor,
   StyleSheet,
@@ -9,14 +10,14 @@ import {
   View,
 } from 'react-native';
 import {ProgressBar} from 'react-native-paper';
-
-import {Grid} from '../components/Grid';
-import {navigate, navigateAndSimpleReset} from '../navigators/utils';
+import {navigate} from '../navigators/utils';
 import {Text} from 'react-native-paper';
+import {Path, Svg} from 'react-native-svg';
 
-const Home = () => {
+const HomePresent = ({children}: {children?: React.ReactNode}) => {
   return (
-    <View style={styles.container}>
+    <>
+      <HomeSvgBackground />
       <View style={styles.descriptionContainer}>
         <Text style={styles.description}>바코드를 스캔합니다.</Text>
         <ProgressBar progress={0.5} color="black" />
@@ -45,6 +46,32 @@ const Home = () => {
           </Text>
         </TouchableOpacity>
       </View>
+    </>
+  );
+};
+
+const HomeSvgBackground = () => {
+  const {width, height} = Dimensions.get('window');
+
+  const HALF_HEIGHT = useMemo(() => height / 2, [height]);
+
+  return (
+    <View>
+      <Svg height={HALF_HEIGHT} width={width}>
+        <Path
+          d="M-17.5 378.5C31.5 32.5 302.5 463 375 89C447.5 -285 375 644 375 644H0C0 644 -66.5 724.5 -17.5 378.5Z"
+          fill="#171717"
+          stroke="#171717"
+        />
+      </Svg>
+    </View>
+  );
+};
+
+const Home = () => {
+  return (
+    <View style={styles.container}>
+      <HomePresent />
     </View>
   );
 };
@@ -54,7 +81,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'rgba(0,0,0,0.1)',
     width: '100%',
     height: '100%',
   },
