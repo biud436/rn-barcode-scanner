@@ -10,7 +10,8 @@ This project is test purpose only, and is not intended to be used in production.
 
 I've used the following libraries:
 
-- React Native Paper: [React Native Paper](https://callstack.github.io/react-native-paper/)
-- React Native Camera Kit
-- React Native NFC Manager
-- React Native SVG
+-   React Native Paper: [React Native Paper](https://callstack.github.io/react-native-paper/)
+-   React Native Camera Kit
+-   React Native NFC Manager
+-   React Native SVG
+-   React Native Permissions
