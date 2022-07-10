@@ -1,19 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useCallback, useRef, useState} from 'react';
-import {Animated, Dimensions, StyleSheet, View} from 'react-native';
+import {
+    Alert,
+    Animated,
+    AppState,
+    AppStateStatus,
+    Dimensions,
+    StyleSheet,
+    View,
+} from 'react-native';
 import {ActivityIndicator, Text} from 'react-native-paper';
 import Svg, {Rect} from 'react-native-svg';
 import {navigate} from '../navigators/utils';
 
 export function Splash() {
-    const animatedValue = useRef(new Animated.Value(0)).current;
+    const animatedValue = useRef(new Animated.Value(0));
     const {width, height} = Dimensions.get('window');
     const [status, setStatus] = useState('loading');
+    const appState = useRef(AppState.currentState);
 
     /**
      * 로딩 상황에 따라 각기 다른 텍스트 표시
      */
     useCallback(() => {
-        animatedValue.addListener(({value}) => {
+        animatedValue.current.addListener(({value}) => {
             if (value >= 200) {
                 setStatus('뛰는 중...');
             } else if (value >= 100) {
@@ -25,22 +35,42 @@ export function Splash() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])();
 
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+        if (
+            appState.current.match(/inactive|background/) &&
+            nextAppState === 'active'
+        ) {
+            Alert.alert('앱으로 다시 돌아오셨군요!');
+            navigate('Home');
+        }
+
+        appState.current = nextAppState;
+    };
+
     React.useEffect(() => {
-        Animated.timing(animatedValue, {
+        AppState.addEventListener('change', handleAppStateChange);
+        animatedValue.current.setValue(0);
+
+        Animated.timing(animatedValue.current, {
             toValue: 255,
             duration: 3000,
             useNativeDriver: true,
         }).start();
 
-        animatedValue.addListener(({value}) => {
+        animatedValue.current.addListener(({value}) => {
             if (value >= 255) {
                 navigate('Permission');
             }
         });
-    }, [animatedValue]);
+
+        return () => {
+            animatedValue.current.setValue(0);
+            animatedValue.current.removeAllListeners();
+        };
+    }, [appState.current]);
 
     const backgroundBlack = {
-        opacity: animatedValue.interpolate({
+        opacity: animatedValue.current.interpolate({
             inputRange: [0, 255],
             outputRange: [1, 0],
         }),
