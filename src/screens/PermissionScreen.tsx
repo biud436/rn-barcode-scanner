@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert, Platform, StyleSheet, Text, View} from 'react-native';
 import {List} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import {navigate} from '../navigators/utils';
 import {RootState} from '../store';
 import {check, PERMISSIONS} from 'react-native-permissions';
 import {setCameraPermission, setLocationPermission} from '../store/permission';
+import SendIntentAndroid from 'react-native-send-intent';
+import nfcManager from 'react-native-nfc-manager';
 
 export function PermissionScreen() {
-    const permissionState = useSelector(
-        (state: RootState) => state.permission,
-    ) as RootState['permission'];
+    const permissionState = useSelector((state: RootState) => state.permission);
     const dispatch = useDispatch();
 
     // const isAndroid = useMemo(() => Platform.OS === 'android', []);
@@ -46,6 +46,16 @@ export function PermissionScreen() {
                         console.log('카메라 권한 체크');
                         const granted = await check(PERMISSIONS.ANDROID.CAMERA);
                         console.log('카메라 권한 체크', granted);
+
+                        if (granted === 'denied') {
+                            Alert.alert('권한을 승인해주세요');
+                            SendIntentAndroid.openSettings(
+                                'android.settings.APPLICATION_SETTINGS',
+                            );
+                            dispatch(setLocationPermission(false));
+                            return;
+                        }
+
                         dispatch(setCameraPermission(granted));
                     }
                     break;
@@ -55,28 +65,55 @@ export function PermissionScreen() {
                             PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
                         );
                         console.log('위치 권한 체크', granted);
-                        dispatch(setLocationPermission(granted));
+
+                        if (granted === 'granted') {
+                            dispatch(setLocationPermission(true));
+                        } else if (['denied'].includes(granted)) {
+                            Alert.alert(
+                                '권한을 승인해주세요',
+                                '위치 정보를 사용하려면 권한을 승인해주세요',
+                                [
+                                    {text: '취소', style: 'cancel'},
+                                    {
+                                        text: '승인',
+                                        onPress: () => {
+                                            SendIntentAndroid.openSettings(
+                                                'android.settings.LOCATION_SOURCE_SETTINGS',
+                                            );
+                                        },
+                                    },
+                                ],
+                            );
+
+                            dispatch(setLocationPermission(false));
+                        }
                     }
                     break;
-                // 지원하지 않음
-                // case 'nfc':
-                //     if (isAndroid && Platform.Version >= 23) {
-                //         const granted = await PermissionsAndroid.request(
-                //             PermissionsAndroid.PERMISSIONS.NFC,
-                //             {
-                //                 title: 'NFC 권한 요청',
-                //                 message: 'NFC 권한이 필요합니다.',
-                //                 buttonPositive: '허용',
-                //             },
-                //         );
-
-                //         console.log(granted);
-
-                //         if (PermissionsAndroid.RESULTS.GRANTED === granted) {
-                //             Alert.alert('NFC 권한이 승인되었습니다.');
-                //         }
-                //     }
-                //     break;
+                case 'nfc':
+                    if (Platform.OS === 'android') {
+                        const granted =
+                            (await nfcManager.isEnabled()) &&
+                            (await nfcManager.isSupported());
+                        console.log('NFC 권한 체크', granted);
+                        if (!granted) {
+                            Alert.alert(
+                                '권한을 승인해주세요',
+                                'NFC를 사용하려면 권한을 승인해주세요',
+                                [
+                                    {text: '취소', style: 'cancel'},
+                                    {
+                                        text: '승인',
+                                        onPress: () => {
+                                            SendIntentAndroid.openSettings(
+                                                'android.settings.NFC_SETTINGS',
+                                            );
+                                        },
+                                    },
+                                ],
+                            );
+                        }
+                    }
+                    break;
             }
         } catch (e) {
             console.warn(e);
@@ -97,6 +134,12 @@ export function PermissionScreen() {
                     description="위치 권한"
                     left={props => <List.Icon {...props} icon="camera" />}
                     onPress={async () => await requestPermission('location')}
+                />
+                <List.Item
+                    title="NFC 권한"
+                    description="NFC 권한"
+                    left={props => <List.Icon {...props} icon="camera" />}
+                    onPress={async () => await requestPermission('nfc')}
                 />
             </View>
         );

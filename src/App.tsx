@@ -25,30 +25,30 @@ import {ProgressBar} from 'react-native-paper';
 NfcManager.start();
 
 const App = () => {
-  const init = async () => {
-    const supported = await NfcManager.isSupported();
-    if (supported) {
-      await NfcManager.start();
-    }
-    return supported;
-  };
+    const init = async () => {
+        const supported = await NfcManager.isSupported();
+        if (supported) {
+            await NfcManager.start();
+        }
+        return supported;
+    };
 
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ApplicationNavigator />
-      </PersistGate>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <ApplicationNavigator />
+            </PersistGate>
+        </Provider>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  text: {
-    fontSize: 20,
-  },
+    container: {
+        flex: 1,
+    },
+    text: {
+        fontSize: 20,
+    },
 });
 
 export default App;
