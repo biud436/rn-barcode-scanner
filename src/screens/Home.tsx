@@ -5,7 +5,6 @@ import {
   Platform,
   PlatformColor,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -13,6 +12,7 @@ import {ProgressBar} from 'react-native-paper';
 
 import {Grid} from '../components/Grid';
 import {navigate, navigateAndSimpleReset} from '../navigators/utils';
+import {Text} from 'react-native-paper';
 
 const Home = () => {
   return (
