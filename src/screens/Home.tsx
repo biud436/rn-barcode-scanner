@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)',
     width: '100%',
     height: '100%',
+    position: 'absolute',
   },
   descriptionContainer: {flex: 1, padding: 10, justifyContent: 'center'},
   description: {
